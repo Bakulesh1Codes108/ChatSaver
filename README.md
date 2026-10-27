@@ -70,8 +70,8 @@ Folder: Downloads ▸ Chat Saver
 ```markdown
 # GLM 5 — Next-Gen Frontier Model
 
-- Source: https://glm5.app/chat/si1bnnglmkvj61sr
-- Saved: 27/10/2026, 10:20:08 PM
+- Source: https://glm5.app/chat/•••••••••••••
+- Saved: ••/••/2026, ••:••
 - Messages: 8
 
 ---
