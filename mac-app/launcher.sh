@@ -3,7 +3,7 @@
 # If Chat Saver (same or newer version) is already installed in ~/Applications, this just opens it.
 # Otherwise it uses macOS's built-in AppleScript compiler (osacompile — no Xcode needed) to build
 # a real applet like TabVault, installs it to ~/Applications with its icon, signs it ad-hoc, and opens it.
-VERSION="1.8"
+VERSION="1.9"
 RES="$(cd "$(dirname "$0")/../Resources" && pwd)"
 OUT="$HOME/Downloads/Chat Saver"
 DEST="$HOME/Applications/Chat Saver.app"
