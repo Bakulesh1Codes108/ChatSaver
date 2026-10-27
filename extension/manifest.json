@@ -1,0 +1,36 @@
+{
+  "manifest_version": 3,
+  "name": "Chat Saver – Export AI Chats",
+  "short_name": "Chat Saver",
+  "version": "1.0.0",
+  "description": "Save entire AI chats (ChatGPT, Claude, Gemini, GLM, DeepSeek, Copilot, Perplexity, Grok, Poe and any other chat site) as PDF, TXT or Markdown. Auto-scrolls to load the full conversation.",
+  "icons": {
+    "16": "icons/icon-16.png",
+    "32": "icons/icon-32.png",
+    "48": "icons/icon-48.png",
+    "96": "icons/icon-96.png",
+    "128": "icons/icon-128.png",
+    "256": "icons/icon-256.png",
+    "512": "icons/icon-512.png"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Save this chat",
+    "default_icon": {
+      "16": "icons/toolbar-16.png",
+      "19": "icons/toolbar-19.png",
+      "32": "icons/toolbar-32.png",
+      "38": "icons/toolbar-38.png"
+    }
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "permissions": ["activeTab", "scripting", "storage", "unlimitedStorage"],
+  "commands": {
+    "_execute_action": {
+      "suggested_key": { "default": "Alt+Shift+S", "mac": "Alt+Shift+S" },
+      "description": "Open Chat Saver"
+    }
+  }
+}

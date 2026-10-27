@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Chat Saver</title>
+  <link rel="stylesheet" href="theme.css">
+  <link rel="stylesheet" href="export.css">
+</head>
+<body>
+  <header id="toolbar" class="bar">
+    <div class="bar-brand">
+      <img src="icons/icon-96.png" alt="" width="28" height="28">
+      <div class="bar-title">
+        <span class="eyebrow">Chat Saver</span>
+        <strong id="bar-chat-title">Your chat</strong>
+      </div>
+    </div>
+    <nav class="bar-actions" aria-label="Export">
+      <button id="btn-pdf" class="btn btn-primary"><span data-icon="download-simple"></span>Download PDF</button>
+      <button id="btn-print" class="btn" title="Opens the print dialog — choose “Save as PDF”. Text stays selectable and searchable."><span data-icon="printer"></span>Selectable PDF</button>
+      <button id="btn-txt" class="btn"><span data-icon="file-txt"></span>TXT</button>
+      <button id="btn-md" class="btn"><span data-icon="file-md"></span>MD</button>
+      <button id="btn-copy" class="btn btn-ghost" aria-label="Copy whole chat"><span data-icon="copy"></span><span class="hide-sm">Copy</span></button>
+    </nav>
+  </header>
+
+  <section id="banner" class="notice" role="status" aria-live="polite" hidden>
+    <div class="notice-row"><span class="notice-icon"></span><p class="notice-text"></p><span class="notice-links"></span></div>
+    <div class="progress" hidden><span></span></div>
+  </section>
+
+  <main id="chat" aria-label="Conversation"></main>
+
+  <script src="icons.js"></script>
+  <script src="lib/html2canvas.min.js"></script>
+  <script src="lib/jspdf.umd.min.js"></script>
+  <script src="export.js"></script>
+</body>
+</html>

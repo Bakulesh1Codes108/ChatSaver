@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Chat Saver</title>
+  <link rel="stylesheet" href="theme.css">
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <header class="head">
+    <img src="icons/icon-96.png" alt="" width="36" height="36" class="logo">
+    <div class="head-text">
+      <h1>Chat Saver</h1>
+      <p class="site"><span id="site">This page</span><span id="app" class="chip" hidden></span></p>
+    </div>
+  </header>
+
+  <main>
+    <button class="btn btn-primary hero" data-format="pdf">
+      <span data-icon="file-pdf" data-size="22"></span>
+      <span class="hero-text"><strong>Save as PDF</strong><small>Formatted · code, tables &amp; images</small></span>
+    </button>
+
+    <div class="pair">
+      <button class="btn" data-format="txt"><span data-icon="file-txt"></span>Text</button>
+      <button class="btn" data-format="md"><span data-icon="file-md"></span>Markdown</button>
+    </div>
+    <button class="btn btn-ghost wide" data-format="print">
+      <span data-icon="printer"></span>PDF with selectable text
+    </button>
+
+    <div class="setting">
+      <div>
+        <label for="autoscroll" class="setting-label">Load full history</label>
+        <p class="setting-help" id="autoscroll-help">Scrolls through the whole chat first so no message is missed.</p>
+      </div>
+      <span class="switch">
+        <input type="checkbox" id="autoscroll" role="switch" checked aria-describedby="autoscroll-help">
+        <span class="track" aria-hidden="true"></span>
+      </span>
+    </div>
+
+    <p id="status" class="status" role="status" aria-live="polite"></p>
+  </main>
+
+  <footer class="foot">
+    <span><span class="kbd">⌥</span> <span class="kbd">⇧</span> <span class="kbd">S</span> opens this</span>
+    <span>Any AI chat site</span>
+  </footer>
+  <script src="icons.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>

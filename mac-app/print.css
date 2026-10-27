@@ -1,0 +1,41 @@
+/* Chat Saver PDF styles — design tokens from design-system/chat-saver/MASTER.md (UI UX Pro Max) */
+:root {
+  --primary: #0F766E; --accent: #EA580C; --fg: #134E4A; --ink: #0F172A; --muted: #475569;
+  --line: #CDEDE7; --line-strong: #99F6E4; --user-bg: #F0FDFA; --code-bg: #F1F5F9; --th-bg: #E8F1F4;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; background: #fff; }
+body { color: var(--ink); font: 14px/1.6 -apple-system, BlinkMacSystemFont, "Inter", "Helvetica Neue", "Noto Sans Devanagari", "PingFang SC", sans-serif; -webkit-print-color-adjust: exact; }
+#chat { width: 760px; padding: 0 4px; overflow-wrap: break-word; word-wrap: break-word; }
+.chat-head { padding-bottom: 16px; margin-bottom: 24px; border-bottom: 1px solid var(--line); }
+.chat-head h1 { font-size: 24px; line-height: 1.25; letter-spacing: -.02em; font-weight: 700; margin: 0 0 8px; color: var(--fg); }
+.meta { color: var(--muted); font-size: 12px; }
+.meta a { color: var(--muted); word-break: break-all; }
+.msg { margin: 0 0 22px; }
+.msg.user { page-break-inside: avoid; }
+.keep { page-break-inside: avoid; }
+.msg-head { display: block; font-size: 12.5px; font-weight: 600; color: var(--fg); margin-bottom: 7px; page-break-after: avoid; }
+.avatar { display: inline-block; vertical-align: middle; width: 22px; height: 22px; line-height: 22px; text-align: center; border-radius: 6px; margin-right: 8px; font-size: 11px; font-weight: 700; color: #fff; background: var(--primary); }
+.msg.user .avatar { background: var(--accent); }
+.msg.user .msg-body { background: var(--user-bg); border: 1px solid var(--line-strong); border-radius: 4px 12px 12px 12px; padding: 10px 14px; page-break-inside: avoid; }
+.msg.assistant .msg-body, .msg.unknown .msg-body { padding-left: 30px; }
+.msg-body > :first-child { margin-top: 0; }
+.msg-body > :last-child { margin-bottom: 0; }
+.msg-body p, .msg-body div { margin: 0 0 .7em; }
+.msg-body div:empty { display: none; }
+.msg-body h1, .msg-body h2, .msg-body h3, .msg-body h4, .msg-body h5, .msg-body h6 { color: var(--fg); line-height: 1.3; margin: 1.1em 0 .45em; page-break-after: avoid; }
+.msg-body h1 { font-size: 1.35em; } .msg-body h2 { font-size: 1.2em; } .msg-body h3 { font-size: 1.08em; } .msg-body h4, .msg-body h5, .msg-body h6 { font-size: 1em; }
+.msg-body ul, .msg-body ol { margin: 0 0 .8em; padding-left: 1.5em; }
+.msg-body li { margin: .2em 0; }
+.msg-body blockquote { margin: 0 0 .8em; padding: .2em 1em; border-left: 3px solid var(--line-strong); color: var(--muted); }
+.msg-body a { color: var(--primary); }
+.msg-body img { max-width: 100%; height: auto; border-radius: 8px; margin: .3em 0; display: block; page-break-inside: avoid; }
+.msg-body code { font: .88em/1.5 Menlo, "SF Mono", monospace; background: var(--code-bg); padding: .1em .35em; border-radius: 4px; }
+.msg-body pre { margin: 0 0 .9em; padding: 12px 14px; background: var(--code-bg); border: 1px solid var(--line); border-radius: 9px; white-space: pre-wrap; word-wrap: break-word; font: 12px/1.5 Menlo, "SF Mono", monospace; }
+.msg-body pre[data-lang]:before { content: attr(data-lang); display: block; margin-bottom: 8px; font: 600 10.5px/1 -apple-system, sans-serif; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); }
+.msg-body table { border-collapse: collapse; margin: 0 0 .9em; font-size: .92em; }
+.msg-body th, .msg-body td { border: 1px solid var(--line); padding: 6px 10px; text-align: left; vertical-align: top; }
+.msg-body th { background: var(--th-bg); font-weight: 600; }
+.msg-body tr { page-break-inside: avoid; }
+.msg-body hr { border: 0; border-top: 1px solid var(--line); margin: 1em 0; }
+.msg-body.lead { margin-bottom: .7em; }

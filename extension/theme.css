@@ -1,0 +1,114 @@
+/*
+ * Chat Saver design tokens — generated with the UI UX Pro Max skill
+ * (style: Minimalism & Swiss · palette: teal productivity · type: Inter).
+ * See design-system/chat-saver/MASTER.md for the source of truth.
+ */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal; font-display: swap; font-weight: 100 900;
+  src: url(fonts/inter-latin-ext-wght-normal.woff2) format('woff2-variations'), url(fonts/inter-latin-ext-wght-normal.woff2) format('woff2');
+  unicode-range: U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: normal; font-display: swap; font-weight: 100 900;
+  src: url(fonts/inter-latin-wght-normal.woff2) format('woff2-variations'), url(fonts/inter-latin-wght-normal.woff2) format('woff2');
+  unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
+}
+
+:root {
+  color-scheme: light dark;
+  /* Palette (UI UX Pro Max → Productivity Tool) */
+  --color-primary: #0F766E;          /* teal-700: 5.5:1 with white (skill's #0D9488 is 3.7:1) */
+  --color-primary-hover: #115E59;
+  --color-on-primary: #FFFFFF;
+  --color-secondary: #14B8A6;
+  --color-accent: #EA580C;
+  --color-background: #F0FDFA;
+  --color-foreground: #134E4A;
+  --color-ink: #0F172A;              /* long-form chat text */
+  --color-card: #FFFFFF;
+  --color-muted: #E8F1F4;
+  --color-muted-foreground: #475569;
+  --color-border: #CDEDE7;
+  --color-border-strong: #99F6E4;
+  --color-ring: #0D9488;
+  --color-success: #047857; --color-success-bg: #ECFDF5;
+  --color-destructive: #DC2626; --color-destructive-bg: #FEF2F2;
+  --color-user-bg: #F0FDFA; --color-user-border: #99F6E4;
+  --color-code-bg: #F1F5F9;
+
+  /* Type */
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', 'Noto Sans Devanagari', 'PingFang SC', 'Hiragino Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji';
+  --font-mono: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+
+  /* Spacing (density 6/10 — standard) */
+  --space-xs: 4px; --space-sm: 8px; --space-md: 16px; --space-lg: 24px; --space-xl: 32px; --space-2xl: 48px;
+  --radius-sm: 6px; --radius-md: 10px; --radius-lg: 14px;
+  --shadow-sm: 0 1px 2px rgba(15, 23, 42, .06);
+  --shadow-md: 0 1px 3px rgba(15, 23, 42, .06), 0 8px 24px rgba(15, 23, 42, .06);
+
+  /* Motion (3/10 — subtle) */
+  --dur-fast: 150ms; --dur: 220ms; --ease: cubic-bezier(.2, .7, .2, 1);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --color-primary: #2DD4BF; --color-primary-hover: #5EEAD4; --color-on-primary: #042F2E;
+    --color-background: #0A1413; --color-foreground: #E6FFFA; --color-ink: #E2E8F0;
+    --color-card: #111C1B; --color-muted: #1A2A29; --color-muted-foreground: #9FB3B0;
+    --color-border: #23403C; --color-border-strong: #2F5F59; --color-ring: #2DD4BF;
+    --color-success: #34D399; --color-success-bg: #0B2A22;
+    --color-destructive: #F87171; --color-destructive-bg: #2A1212;
+    --color-user-bg: #0F2A27; --color-user-border: #23504A; --color-code-bg: #0D1716;
+    --shadow-sm: none; --shadow-md: 0 0 0 1px var(--color-border);
+  }
+}
+:root[data-theme="light"] { color-scheme: light; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition-duration: 0ms !important; animation-duration: 0ms !important; }
+}
+
+/* Shared controls */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: var(--space-sm);
+  min-height: 44px; padding: 0 var(--space-md); border-radius: var(--radius-md);
+  font: 500 14px/1 var(--font-sans); letter-spacing: -.005em;
+  color: var(--color-foreground); background: var(--color-card); border: 1px solid var(--color-border);
+  cursor: pointer; text-decoration: none; white-space: nowrap;
+  transition: background-color var(--dur-fast) var(--ease), border-color var(--dur-fast) var(--ease), color var(--dur-fast) var(--ease), transform var(--dur-fast) var(--ease);
+}
+.btn:hover { border-color: var(--color-ring); background: var(--color-muted); }
+.btn:active { transform: translateY(1px); }
+.btn:focus-visible, .switch input:focus-visible + .track { outline: 2px solid var(--color-ring); outline-offset: 2px; }
+.btn[disabled], .btn[aria-busy="true"] { opacity: .55; cursor: not-allowed; transform: none; }
+.btn-primary { background: var(--color-primary); color: var(--color-on-primary); border-color: transparent; }
+.btn-primary:hover { background: var(--color-primary-hover); border-color: transparent; }
+.btn-ghost { background: transparent; border-color: transparent; color: var(--color-muted-foreground); }
+.btn-ghost:hover { background: var(--color-muted); border-color: transparent; color: var(--color-foreground); }
+.btn svg { flex: none; }
+
+.kbd {
+  font: 500 11px/1 var(--font-sans); padding: 3px 6px; border-radius: 5px;
+  border: 1px solid var(--color-border); background: var(--color-muted); color: var(--color-foreground);
+}
+
+/* Switch */
+.switch { position: relative; display: inline-flex; flex: none; cursor: pointer; }
+.switch input { position: absolute; opacity: 0; width: 100%; height: 100%; margin: 0; cursor: pointer; }
+.switch .track {
+  width: 40px; height: 24px; border-radius: 999px; background: var(--color-border-strong); position: relative;
+  transition: background-color var(--dur) var(--ease);
+}
+.switch .track::after {
+  content: ''; position: absolute; top: 3px; left: 3px; width: 18px; height: 18px; border-radius: 50%;
+  background: #fff; box-shadow: var(--shadow-sm); transition: transform var(--dur) var(--ease);
+}
+.switch input:checked + .track { background: var(--color-primary); }
+.switch input:checked + .track::after { transform: translateX(16px); }
+
+.progress { height: 6px; border-radius: 999px; background: var(--color-muted); overflow: hidden; }
+.progress > span { display: block; height: 100%; width: 0; background: var(--color-primary); border-radius: inherit; transition: width var(--dur) var(--ease); }
+
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
