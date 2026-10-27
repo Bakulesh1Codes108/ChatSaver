@@ -1,0 +1,6 @@
+extension/lib/
+extension/fonts/
+docs/screenshots/
+*.png
+*.icns
+*.woff2

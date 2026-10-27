@@ -149,6 +149,10 @@ The first run compiles a real applet with macOS's built-in `osacompile`, install
 
 📐 **Full architecture with diagrams:** [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md). It covers the components, the step-by-step save sequence, the tick state machine, the extractor pipeline and the install flow.
 
+🕸️ **Code knowledge graph** (built with [Graphify](https://github.com/Graphify-Labs/graphify)): 178 nodes · 266 edges · 12 clusters. See [docs/ARCHITECTURE.md § 8](docs/ARCHITECTURE.md#8-knowledge-graph-graphify) and the interactive [`graphify-out/graph.html`](graphify-out/graph.html).
+
+<img src="docs/screenshots/graphify-graph.png" width="760" alt="Graphify knowledge graph">
+
 - **Extractor** (`extension/content.js`, shared by the app and the extension):
   - per-site adapters for the big chat apps, plus a generic detector that finds the message list on any page
   - works out whether each message is from you or the AI, using page markup and layout

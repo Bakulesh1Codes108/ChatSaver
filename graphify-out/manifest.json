@@ -1,0 +1,86 @@
+{
+  "extension/background.js": {
+    "mtime": 1793123185.7876277,
+    "seen": 1793125513.1864455,
+    "ast_hash": "8a2f73fdcf746a0945b7d25c18c81a42",
+    "semantic_hash": ""
+  },
+  "extension/content.js": {
+    "mtime": 1793123185.788096,
+    "seen": 1793125513.1864524,
+    "ast_hash": "8b32486da328588c072abebea1a3d1ba",
+    "semantic_hash": ""
+  },
+  "extension/export.js": {
+    "mtime": 1793123185.7880085,
+    "seen": 1793125513.1864557,
+    "ast_hash": "1d5eeec0a4ad0cc29948f746e596306e",
+    "semantic_hash": ""
+  },
+  "extension/icons.js": {
+    "mtime": 1793123185.78781,
+    "seen": 1793125513.1864574,
+    "ast_hash": "41a609208c40714fa4c539ac2367a0f7",
+    "semantic_hash": ""
+  },
+  "extension/manifest.json": {
+    "mtime": 1793123185.7874537,
+    "seen": 1793125513.1864588,
+    "ast_hash": "cfdee78a4acdb168475cc3c53380e13e",
+    "semantic_hash": ""
+  },
+  "extension/popup.js": {
+    "mtime": 1793123185.7848296,
+    "seen": 1793125513.1864605,
+    "ast_hash": "c637b60817c4a1f8d49c7a08bf3c42f8",
+    "semantic_hash": ""
+  },
+  "mac-app/build-app.sh": {
+    "mtime": 1793123186.0819447,
+    "seen": 1793125513.1864614,
+    "ast_hash": "13afb5c1276c5b91f8d272a57e3ff60d",
+    "semantic_hash": ""
+  },
+  "mac-app/chatsaver.js": {
+    "mtime": 1793123186.0752275,
+    "seen": 1793125513.1864626,
+    "ast_hash": "3473e22d54911578d97b930223a87ca1",
+    "semantic_hash": ""
+  },
+  "mac-app/launcher.sh": {
+    "mtime": 1793123186.0754511,
+    "seen": 1793125513.1864638,
+    "ast_hash": "a079dc24a36b88ec542d41092807e288",
+    "semantic_hash": ""
+  },
+  "README.md": {
+    "mtime": 1793124377.1417775,
+    "seen": 1793125513.1864653,
+    "ast_hash": "e747f9d54dce6899b8be8a3ea00f55d5",
+    "semantic_hash": ""
+  },
+  "design-system/chat-saver/MASTER.md": {
+    "mtime": 1793123186.070589,
+    "seen": 1793125513.1864672,
+    "ast_hash": "d71f9edde2272fa524c600c97daa067d",
+    "semantic_hash": ""
+  },
+  "docs/ARCHITECTURE.md": {
+    "mtime": 1793124372.3927906,
+    "seen": 1793125513.1864693,
+    "ast_hash": "80b2af89d21c684bb5cdb47e07dbc95f",
+    "semantic_hash": ""
+  },
+  "extension/export.html": {
+    "mtime": 1793123185.7876983,
+    "seen": 1793125513.1864707,
+    "ast_hash": "b6b4b6d979a02f3dbfbd1059e96b6e94",
+    "semantic_hash": ""
+  },
+  "extension/popup.html": {
+    "mtime": 1793123185.787533,
+    "seen": 1793125513.1864717,
+    "ast_hash": "a08300fc7dc623cdcdfc190b611902a2",
+    "semantic_hash": ""
+  }
+}

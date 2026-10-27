@@ -198,3 +198,32 @@ ChatSaver/
     ├── ARCHITECTURE.md     # this file
     └── screenshots/
 ```
+
+---
+
+## 8. Knowledge graph (Graphify)
+
+A code knowledge graph of this repository, built with [Graphify](https://github.com/Graphify-Labs/graphify) in its offline code-only mode (`graphify update .`, no AI model involved). Graphify parses every function, file and document heading and links them by calls, imports and references. It then groups them into clusters.
+
+![Graphify knowledge graph of Chat Saver](screenshots/graphify-graph.png)
+
+**178 nodes · 266 edges · 12 clusters** (95 % of edges extracted directly from code, 5 % inferred)
+
+| Cluster | Size | What it is |
+|---|---|---|
+| `content.js` | 38 | the extractor: `gather()`, `collect()`, `createCollector()`, `tick()`, cleaning and rendering |
+| `chatsaver.js` | 32 | the Mac app: `main()`, `openLink()`, `pickTab()`, `makePdf()`, `buildHtml()`, checks |
+| Architecture doc | 25 | this document's sections, linked to the code they describe |
+| `manifest.json` | 23 | extension permissions, icons, commands |
+| Design system | 18 | UI UX Pro Max tokens and rules |
+| `export.js` | 15 | extension reading view and one-click PDF |
+
+**Most-connected functions ("god nodes"):** `main()` (16 links), `gather()` (9), `collect()` (8), `makePdf()` (7), `buildHtml()` (7), `log()` (7).
+**No import cycles.** The graph also links the "Why step mode" section of this doc to the `tick()` function in code.
+
+**Files:**
+- [`graphify-out/graph.html`](../graphify-out/graph.html): the interactive graph. Download it and open it in a browser to search, zoom and click nodes.
+- [`graphify-out/GRAPH_REPORT.md`](../graphify-out/GRAPH_REPORT.md): the full report.
+- [`graphify-out/graph.json`](../graphify-out/graph.json): the raw graph, for `graphify path`, `graphify explain` and similar commands.
+
+Rebuild after code changes: `pip install graphifyy && graphify update .`
