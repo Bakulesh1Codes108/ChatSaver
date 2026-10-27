@@ -1,7 +1,6 @@
 const api = globalThis.browser ?? globalThis.chrome;
 const statusEl = document.getElementById('status');
-const auto = document.getElementById('autoscroll');
-const buttons = () => document.querySelectorAll('button[data-format]');
+const linkEl = document.getElementById('link');
 
 hydrateIcons();
 
@@ -12,7 +11,7 @@ const KNOWN = [
   [/(^|\.)grok\.com$/, 'Grok'], [/(^|\.)(glm5\.app|chat\.z\.ai|chatglm\.cn|z\.ai)$/, 'GLM'],
   [/(^|\.)(chat\.qwen\.ai|tongyi\.aliyun\.com)$/, 'Qwen'], [/(^|\.)(kimi\.com|kimi\.moonshot\.cn)$/, 'Kimi'],
   [/(^|\.)chat\.mistral\.ai$/, 'Mistral'], [/(^|\.)meta\.ai$/, 'Meta AI'], [/(^|\.)huggingface\.co$/, 'HuggingChat'],
-  [/(^|\.)character\.ai$/, 'Character.AI'], [/(^|\.)pi\.ai$/, 'Pi'],
+  [/(^|\.)character\.ai$/, 'Character.AI'], [/(^|\.)pi\.ai$/, 'Pi'], [/(^|\.)manus\.im$/, 'Manus'],
 ];
 
 function setStatus(msg, kind) {
@@ -22,44 +21,47 @@ function setStatus(msg, kind) {
   if (kind) statusEl.append(icon(kind === 'err' ? 'warning-circle' : 'check-circle', 16));
   statusEl.append(document.createTextNode(msg));
 }
+const done = (msg) => { setStatus(msg, 'ok'); setTimeout(() => window.close(), 1100); };
 
+let tab = null;
 (async () => {
   try {
-    const saved = await api.storage.local.get('autoscroll');
-    if (saved && saved.autoscroll === false) auto.checked = false;
-    const [tab] = await api.tabs.query({ active: true, currentWindow: true });
+    [tab] = await api.tabs.query({ active: true, currentWindow: true });
     if (tab?.url && /^https?:/.test(tab.url)) {
       const h = new URL(tab.url).hostname.replace(/^www\./, '');
       document.getElementById('site').textContent = h;
       const hit = KNOWN.find(([re]) => re.test(h));
       const chip = document.getElementById('app');
       chip.textContent = hit ? hit[1] : 'Smart detect';
-      chip.title = hit ? `${hit[1]} detected` : 'Unknown site — Chat Saver will find the conversation automatically';
       chip.hidden = false;
     }
+    // Pre-fill the link box from the clipboard when it holds a link (needs a user gesture in some browsers).
+    try { const c = (await navigator.clipboard.readText()).trim(); if (/^https?:\/\/\S+$/.test(c) && c !== tab?.url) linkEl.value = c; } catch { /* ignore */ }
   } catch { /* popup still works without these niceties */ }
 })();
-auto.addEventListener('change', () => api.storage.local.set({ autoscroll: auto.checked }));
 
-async function start(btn) {
-  const format = btn.dataset.format;
-  buttons().forEach((b) => { b.disabled = true; });
-  btn.setAttribute('aria-busy', 'true');
-  setStatus('Starting…');
+document.getElementById('save-tab').addEventListener('click', async () => {
+  if (!tab || !/^https?:/.test(tab.url || '')) return setStatus('Open a chat page first, or paste a chat link below.', 'err');
+  await api.runtime.sendMessage({ type: 'chatsaver:saveTab', tabId: tab.id });
+  done('Saving — watch the progress card on the page.');
+});
+
+document.getElementById('link-form').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const url = linkEl.value.trim();
+  if (!/^https?:\/\//i.test(url)) return setStatus('Paste a full link that starts with https://', 'err');
+  await api.runtime.sendMessage({ type: 'chatsaver:saveLink', url });
+  done('Opening the chat and saving it…');
+});
+
+// Single-format buttons use the in-page flow (downloads one file / opens the reading view).
+document.querySelectorAll('button[data-format]').forEach((b) => b.addEventListener('click', async () => {
   try {
-    const [tab] = await api.tabs.query({ active: true, currentWindow: true });
-    if (!tab || !/^https?:/.test(tab.url || 'https:')) throw new Error('Open a chat web page first.');
+    if (!tab || !/^https?:/.test(tab.url || '')) throw new Error('Open a chat page first.');
     await api.scripting.executeScript({ target: { tabId: tab.id }, files: ['content.js'] });
-    await api.tabs.sendMessage(tab.id, { type: 'chatsaver:start', format, autoscroll: auto.checked });
-    setStatus('Working — progress is shown on the page.', 'ok');
-    setTimeout(() => window.close(), 900);
-  } catch (e) {
-    setStatus(/permission|access|Cannot|denied/i.test(e.message)
-      ? 'Safari needs permission for this website. Click the Chat Saver icon, choose “Always Allow on This Website”, then try again.'
-      : e.message, 'err');
-    buttons().forEach((b) => { b.disabled = false; });
-    btn.removeAttribute('aria-busy');
+    await api.tabs.sendMessage(tab.id, { type: 'chatsaver:start', format: b.dataset.format === 'view' ? 'pdf' : b.dataset.format, autoscroll: true, view: b.dataset.format === 'view' });
+    done('Working — progress is shown on the page.');
+  } catch (err) {
+    setStatus(/permission|access|Cannot/i.test(err.message) ? 'This browser blocked access to this page. Allow Chat Saver for this site and try again.' : err.message, 'err');
   }
-}
-
-buttons().forEach((b) => b.addEventListener('click', () => start(b)));
+}));

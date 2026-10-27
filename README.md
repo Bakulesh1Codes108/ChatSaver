@@ -5,9 +5,9 @@
 <h1 align="center">Chat Saver</h1>
 
 <p align="center">
-  <b>Save any AI chat from Safari as a PDF, a text file and a Markdown file.</b><br>
+  <b>Save any AI chat as a PDF, a text file and a Markdown file.</b><br>
   Give it a link and it does the rest: opens the chat, scrolls through every message, saves, checks and reports.<br>
-  No Xcode, no extension store, no copy-paste.
+  macOS · Windows · Linux. Safari · Chrome · Edge · Brave · Opera · Firefox.
 </p>
 
 ---
@@ -26,6 +26,18 @@ It works with:
 - ChatGPT, Claude, Gemini, Copilot, Perplexity, DeepSeek, Poe, Grok and GLM (glm5.app, chat.z.ai)
 - Qwen, Kimi, Mistral, Meta AI, HuggingChat and Manus
 - most other chat sites, through automatic message detection
+
+---
+
+## Pick your version
+
+All three versions use the same chat reader and give the same result: **PDF + TXT + Markdown** in `Downloads/Chat Saver`, plus a check and a summary.
+
+| You use… | Get | How you save a chat |
+|---|---|---|
+| **Mac + Safari** | [Mac app](#install-the-mac-app-no-xcode) (`mac-app/`) | Open Chat Saver, paste the link, click **Save Chat** |
+| **Windows** (or Linux/macOS) **with Chrome, Edge or Brave** | [Chat Saver Desktop](#chat-saver-desktop-windows--linux--macos) (`desktop/`) | Open **Chat Saver** from the Start menu, paste the link, press **Enter** |
+| **Any browser:** Chrome, Edge, Brave, Opera, Firefox (and Safari) | [Browser extension](#browser-extension-chrome-edge-brave-opera-firefox) (`extension/`) | Click the toolbar button, then **Save this chat**, or paste a link |
 
 ---
 
@@ -126,22 +138,63 @@ The first run compiles a real applet with macOS's built-in `osacompile`, install
 
 ---
 
-## Also included: a browser extension
+## Chat Saver Desktop (Windows · Linux · macOS)
 
-`extension/` contains the same extractor as a Manifest V3 extension, with a toolbar menu and a reading view. It can save one-click PDFs, PDFs with selectable text, TXT and Markdown.
+A small command-line app for Windows (and Linux and macOS) that works the same way as the Mac app. It uses the **Chrome, Edge or Brave you already have** to open the chat link, scroll through the whole chat and save the PDF, TXT and Markdown files. The PDF comes from the browser's own print engine, so its text is selectable.
+
+<img src="docs/screenshots/desktop-cli.png" width="700" alt="Chat Saver Desktop saving two chats">
+
+### Install on Windows
+1. Download this repository (**Code ▸ Download ZIP**) and unzip it.
+2. Open `desktop\windows`, right-click **`Install Chat Saver.ps1`** and choose **Run with PowerShell**.
+   It installs Node.js if it's missing (through winget) and Chat Saver's one dependency, then adds **Chat Saver** to the Start menu and the Desktop.
+3. **First time only:** open **Chat Saver - Sign in** from the Start menu. A browser window opens with Chat Saver's own profile. Sign in to ChatGPT, Claude, Gemini, GLM and your other chat sites, then close the window.
+
+### Use
+Open **Chat Saver**, paste a chat link (or several, separated by spaces) and press **Enter**. Your files are saved in `Downloads\Chat Saver`, and File Explorer opens to show them.
+
+```text
+chatsaver                                   # asks for the link
+chatsaver https://chatgpt.com/c/…           # save one chat
+chatsaver <link1> <link2> <link3>           # save several
+chatsaver --browser chrome <link>           # chrome | edge | brave | chromium
+chatsaver --login                           # sign in to chat sites (once)
+chatsaver --out D:\Chats <link>             # different folder
+```
+
+**Linux and macOS:** run `./desktop/chatsaver.sh <link>`. It needs Node.js 18 or newer and Chrome, Edge, Brave or Chromium.
+
+**Your everyday browser profile is never touched:** Chat Saver keeps its own profile in `%LOCALAPPDATA%\ChatSaver` and a log in the same place.
+
+---
+
+## Browser extension (Chrome, Edge, Brave, Opera, Firefox)
+
+Version 2 of the extension does the whole job by itself. Click **Save this chat**, or paste a link, and it:
+- scrolls through the full history, even while you use other tabs
+- saves the PDF, TXT and Markdown straight into `Downloads/Chat Saver`
+- checks the files, then shows a notification and a ✓ badge on the toolbar button
+
+You can also right-click any page and choose **Save this chat**.
 
 <p>
-  <img src="docs/screenshots/ext-popup-light.png" width="260" alt="Extension menu, light">
-  <img src="docs/screenshots/ext-popup-dark.png" width="260" alt="Extension menu, dark">
+  <img src="docs/screenshots/ext2-popup-light.png" width="280" alt="Extension popup, light">
+  <img src="docs/screenshots/ext2-popup-dark.png" width="280" alt="Extension popup, dark">
 </p>
+
+| Browser | Install | PDF |
+|---|---|---|
+| Chrome · Edge · Brave · Opera | Go to `chrome://extensions` (or `edge://extensions`), turn on **Developer mode**, click **Load unpacked** and choose `extension/` | Browser print engine, selectable text |
+| Firefox 121+ | Go to `about:debugging` ▸ **This Firefox** ▸ **Load Temporary Add-on**, then choose `extension/manifest.json` | Built-in generator (jsPDF) |
+| Safari | **Develop ▸ Developer Settings ▸ Add Temporary Extension**, or use the [Mac app](#install-the-mac-app-no-xcode) | Built-in generator |
+
+In Chrome-based browsers, making the PDF briefly shows a "Chat Saver started debugging this browser" bar. That's the browser's print engine at work, and it closes by itself. The **One format only** menu still offers single files and the reading view:
+
 <img src="docs/screenshots/ext-export-light.png" width="760" alt="Reading view, light">
 <p>
   <img src="docs/screenshots/ext-export-dark.png" width="560" alt="Reading view, dark">
   <img src="docs/screenshots/ext-export-mobile.png" width="190" alt="Reading view, mobile">
 </p>
-
-- **Chrome, Edge or Brave:** go to `chrome://extensions`, turn on Developer mode, click **Load unpacked** and choose `extension/`.
-- **Safari:** use **Develop ▸ Developer Settings ▸ Add Temporary Extension**, or run `extension-safari-installer.command`, which needs Xcode.
 
 ---
 
@@ -149,7 +202,7 @@ The first run compiles a real applet with macOS's built-in `osacompile`, install
 
 📐 **Full architecture with diagrams:** [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md). It covers the components, the step-by-step save sequence, the tick state machine, the extractor pipeline and the install flow.
 
-🕸️ **Code knowledge graph** (built with [Graphify](https://github.com/Graphify-Labs/graphify)): 178 nodes · 266 edges · 12 clusters. See [docs/ARCHITECTURE.md § 8](docs/ARCHITECTURE.md#8-knowledge-graph-graphify) and the interactive [`graphify-out/graph.html`](graphify-out/graph.html).
+🕸️ **Code knowledge graph** (built with [Graphify](https://github.com/Graphify-Labs/graphify)): 259 nodes · 395 edges · 14 clusters. See [docs/ARCHITECTURE.md § 8](docs/ARCHITECTURE.md#8-knowledge-graph-graphify) and the interactive [`graphify-out/graph.html`](graphify-out/graph.html).
 
 <img src="docs/screenshots/graphify-graph.png" width="760" alt="Graphify knowledge graph">
 
@@ -169,7 +222,8 @@ The first run compiles a real applet with macOS's built-in `osacompile`, install
 
 ```
 mac-app/          Mac app: chatsaver.js (JXA), launcher.sh (self-installer), print.css, icon, build-app.sh
-extension/        Manifest V3 extension + shared extractor (content.js)
+desktop/          Windows/Linux/macOS app: chatsaver.mjs (Node + your Chrome/Edge/Brave), windows/ installer + shortcuts
+extension/        Manifest V3 extension (Chrome/Edge/Brave/Opera/Firefox) + shared extractor (content.js)
 design-system/    UI UX Pro Max design system
 docs/screenshots  Images used in this README
 ```

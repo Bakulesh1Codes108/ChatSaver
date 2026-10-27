@@ -6,7 +6,7 @@
  * for PDF.
  */
 (() => {
-  const CS_VERSION = '1.6';
+  const CS_VERSION = '1.7';
   if (window.__chatSaverLoaded === CS_VERSION) return;
   window.__chatSaverLoaded = CS_VERSION;
 
@@ -555,9 +555,14 @@
 
   function createCollector(sc) {
     const entries = [];
+    // Messages in chat order. Each collect pass sees messages in page order, so a new message is
+    // placed right after the last known one seen before it (older messages loaded at the top
+    // therefore land before everything collected earlier).
+    const ordered = [];
     const byEl = new WeakMap();
     const byId = new Map();
     let list = null;
+    const place = (entry, prev) => { const i = prev ? ordered.indexOf(prev) + 1 : 0; ordered.splice(i, 0, entry); };
 
     function genericItems() {
       if (!list || !list.isConnected) list = findMessageList(sc.win ? document.body : sc.el);
@@ -571,6 +576,7 @@
       const usingAdapter = items.length > 0;
       if (!usingAdapter) items = genericItems();
       const listRect = (usingAdapter ? (sc.win ? document.body : sc.el) : list)?.getBoundingClientRect?.() || { left: 0, width: innerWidth, right: innerWidth };
+      let prev = null;
       for (const it of items) {
         const el = it.el;
         const len = (it.content.textContent || '').length;
@@ -587,7 +593,7 @@
           if (!sid) {
             // Same text at (almost) the same spot = the same message re-rendered.
             const dup = entries.find((e) => e.hash === h && !e.sid && Math.abs(e.top - absTop) < 200);
-            if (dup) { byEl.set(el, dup); continue; }
+            if (dup) { byEl.set(el, dup); dup.top = absTop; prev = dup; continue; }
           }
           entry = { hash: h, top: absTop, len, clean, role: it.role, sid };
           if (!it.role) {
@@ -596,6 +602,7 @@
             entry.right = alignedRight(el, listRect);
           }
           entries.push(entry);
+          place(entry, prev);
           byEl.set(el, entry);
           if (sid) byId.set(sid, entry);
         } else if (len > entry.len) {
@@ -604,6 +611,8 @@
           entry.len = len;
           byEl.set(el, entry);
         }
+        entry.top = absTop; // keep positions current (older messages loading above shift everything down)
+        prev = entry;
       }
     }
 
@@ -617,7 +626,7 @@
         else if (anyRight) e.role = e.right ? 'user' : 'assistant';
         else e.role = 'unknown';
       }
-      return entries;
+      return ordered;
     }
     return { collect, finish, get count() { return entries.length; }, get usingList() { return list; } };
   }
@@ -685,7 +694,7 @@
     return {
       title: chatTitle(), url: location.href, host, site: adapter?.name || host, assistantName,
       savedAt: now.toISOString(), savedAtLocal: now.toLocaleString(),
-      fileBase: `${safeName(chatTitle())} - ${now.toISOString().slice(0, 10)}`,
+      fileBase: `${safeName(chatTitle())} - ${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`,
       messages: entries.map((e) => ({
         role: e.role, label: label(e.role),
         html: e.clean.innerHTML,
@@ -717,7 +726,7 @@
     setTimeout(() => { a.remove(); URL.revokeObjectURL(url); }, 4000);
   }
 
-  async function run(format, autoscroll) {
+  async function run(format, autoscroll, view) {
     try {
       const entries = await gather(autoscroll);
       if (!entries.length) {
@@ -733,7 +742,7 @@
         overlay.set('Step 3 of 3 · Building PDF', `Preparing ${p.messages.length} messages…`, 97);
         const id = 'chat_' + Date.now();
         await api.storage.local.set({ [id]: p });
-        await api.runtime.sendMessage({ type: 'chatsaver:open', id, action: format });
+        await api.runtime.sendMessage({ type: 'chatsaver:open', id, action: view ? 'view' : format });
         overlay.done(`${p.messages.length} messages captured`, format === 'print' ? 'Opened a new tab — choose “Save as PDF” in the print dialog.' : 'Your PDF is being created in the new tab.');
       }
       return { ok: true, count: p.messages.length };
@@ -847,7 +856,7 @@
 
   api?.runtime?.onMessage?.addListener((msg, _sender, sendResponse) => {
     if (msg?.type !== 'chatsaver:start') return;
-    run(msg.format, msg.autoscroll !== false);
+    run(msg.format, msg.autoscroll !== false, msg.view);
     sendResponse({ started: true });
   });
 })();

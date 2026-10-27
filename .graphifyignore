@@ -4,3 +4,5 @@ docs/screenshots/
 *.png
 *.icns
 *.woff2
+desktop/node_modules/
+*.ico

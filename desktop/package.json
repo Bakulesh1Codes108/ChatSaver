@@ -1,0 +1,11 @@
+{
+  "name": "chatsaver-desktop",
+  "version": "1.0.0",
+  "description": "Save any AI chat as PDF, TXT and Markdown from a link — Windows, Linux and macOS, using your installed Chrome, Edge or Brave.",
+  "type": "module",
+  "bin": { "chatsaver": "chatsaver.mjs" },
+  "scripts": { "start": "node chatsaver.mjs" },
+  "engines": { "node": ">=18" },
+  "dependencies": { "playwright-core": "1.48.2" },
+  "license": "MIT"
+}

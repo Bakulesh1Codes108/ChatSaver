@@ -1,20 +1,20 @@
 {
   "extension/background.js": {
-    "mtime": 1793123185.7876277,
-    "seen": 1793125513.1864455,
-    "ast_hash": "8a2f73fdcf746a0945b7d25c18c81a42",
+    "mtime": 1793126732.6583028,
+    "seen": 1793126861.5511644,
+    "ast_hash": "69eaed243076ccbf2a609af8af231a32",
     "semantic_hash": ""
   },
   "extension/content.js": {
-    "mtime": 1793123185.788096,
-    "seen": 1793125513.1864524,
-    "ast_hash": "8b32486da328588c072abebea1a3d1ba",
+    "mtime": 1793126485.610878,
+    "seen": 1793126861.5511668,
+    "ast_hash": "a2d7e31ac60abb1ce21fb07dd5806f48",
     "semantic_hash": ""
   },
   "extension/export.js": {
-    "mtime": 1793123185.7880085,
-    "seen": 1793125513.1864557,
-    "ast_hash": "1d5eeec0a4ad0cc29948f746e596306e",
+    "mtime": 1793126445.8942697,
+    "seen": 1793126861.5511682,
+    "ast_hash": "fd634c82248b77090fa5423537beb7cd",
     "semantic_hash": ""
   },
   "extension/icons.js": {
@@ -24,15 +24,15 @@
     "semantic_hash": ""
   },
   "extension/manifest.json": {
-    "mtime": 1793123185.7874537,
-    "seen": 1793125513.1864588,
-    "ast_hash": "cfdee78a4acdb168475cc3c53380e13e",
+    "mtime": 1793126455.7182863,
+    "seen": 1793126861.5511725,
+    "ast_hash": "49543df6d98e3abf3958f43159162298",
     "semantic_hash": ""
   },
   "extension/popup.js": {
-    "mtime": 1793123185.7848296,
-    "seen": 1793125513.1864605,
-    "ast_hash": "c637b60817c4a1f8d49c7a08bf3c42f8",
+    "mtime": 1793126475.9262874,
+    "seen": 1793126861.551174,
+    "ast_hash": "8df89b9e2469ac5671b757e733a2d214",
     "semantic_hash": ""
   },
   "mac-app/build-app.sh": {
@@ -54,9 +54,9 @@
     "semantic_hash": ""
   },
   "README.md": {
-    "mtime": 1793124377.1417775,
-    "seen": 1793125513.1864653,
-    "ast_hash": "e747f9d54dce6899b8be8a3ea00f55d5",
+    "mtime": 1793126823.7631109,
+    "seen": 1793126861.551181,
+    "ast_hash": "ea47fefaaa647950f4066103111c16aa",
     "semantic_hash": ""
   },
   "design-system/chat-saver/MASTER.md": {
@@ -66,9 +66,9 @@
     "semantic_hash": ""
   },
   "docs/ARCHITECTURE.md": {
-    "mtime": 1793124372.3927906,
-    "seen": 1793125513.1864693,
-    "ast_hash": "80b2af89d21c684bb5cdb47e07dbc95f",
+    "mtime": 1793126852.2210686,
+    "seen": 1793126861.5511837,
+    "ast_hash": "0e728f2a51d9b8e6f35845ed1a99b62b",
     "semantic_hash": ""
   },
   "extension/export.html": {
@@ -78,9 +78,39 @@
     "semantic_hash": ""
   },
   "extension/popup.html": {
-    "mtime": 1793123185.787533,
-    "seen": 1793125513.1864717,
-    "ast_hash": "a08300fc7dc623cdcdfc190b611902a2",
+    "mtime": 1793126464.2542868,
+    "seen": 1793126861.551186,
+    "ast_hash": "546cd71bc59e4fe0689bbb43865bfea7",
+    "semantic_hash": ""
+  },
+  "desktop/chatsaver.mjs": {
+    "mtime": 1793126686.180144,
+    "seen": 1793126861.5511496,
+    "ast_hash": "bb3d9e1438e0e1fae2cbc737aba68559",
+    "semantic_hash": ""
+  },
+  "desktop/chatsaver.sh": {
+    "mtime": 1793126578.3844867,
+    "seen": 1793126861.5511565,
+    "ast_hash": "8f5250f0d8245163c40236b9ee539e16",
+    "semantic_hash": ""
+  },
+  "desktop/package.json": {
+    "mtime": 1793125949.1422563,
+    "seen": 1793126861.5511599,
+    "ast_hash": "a4786ac90fddca8652915a01bd949482",
+    "semantic_hash": ""
+  },
+  "desktop/windows/Install Chat Saver.ps1": {
+    "mtime": 1793126584.193297,
+    "seen": 1793126861.5511615,
+    "ast_hash": "fdce337f7a648042c860aa62c5547136",
+    "semantic_hash": ""
+  },
+  "desktop/package-lock.json": {
+    "mtime": 1793125958.2022567,
+    "seen": 1793126861.5511875,
+    "ast_hash": "91ae6d3c4b52cb2a9744fcb086a28eb4",
     "semantic_hash": ""
   }
 }

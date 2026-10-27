@@ -186,7 +186,12 @@ ChatSaver/
 │   ├── print.css           # PDF layout (design-system tokens)
 │   ├── AppIcon.icns        # icon (macOS grid)
 │   └── build-app.sh        # assembles "Chat Saver.app" from these files
+├── desktop/
+│   ├── chatsaver.mjs       # Windows/Linux/macOS app (Node + your Chrome/Edge/Brave)
+│   ├── chatsaver.sh        # macOS/Linux launcher
+│   └── windows/            # Install Chat Saver.ps1, Chat Saver.cmd, icon
 ├── extension/
+│   ├── background.js       # v2: drives whole saves (tick loop, downloads, PDF, notifications)
 │   ├── content.js          # shared extractor (adapters, detector, cleaner, tick())
 │   ├── manifest.json       # Manifest V3
 │   ├── popup.*             # toolbar menu
@@ -207,18 +212,20 @@ A code knowledge graph of this repository, built with [Graphify](https://github.
 
 ![Graphify knowledge graph of Chat Saver](screenshots/graphify-graph.png)
 
-**178 nodes · 266 edges · 12 clusters** (95 % of edges extracted directly from code, 5 % inferred)
+**259 nodes · 395 edges · 14 clusters** (94 % of edges extracted directly from code, 6 % inferred)
 
 | Cluster | Size | What it is |
 |---|---|---|
 | `content.js` | 38 | the extractor: `gather()`, `collect()`, `createCollector()`, `tick()`, cleaning and rendering |
-| `chatsaver.js` | 32 | the Mac app: `main()`, `openLink()`, `pickTab()`, `makePdf()`, `buildHtml()`, checks |
+| `chatsaver.mjs` | 39 | Windows/Linux/macOS desktop app: `main()`, `saveChat()`, `findBrowser()`, `buildHtml()` |
+| `chatsaver.js` | 33 | the Mac app: `main()`, `openLink()`, `pickTab()`, `makePdf()`, `buildHtml()`, checks |
 | Architecture doc | 25 | this document's sections, linked to the code they describe |
 | `manifest.json` | 23 | extension permissions, icons, commands |
 | Design system | 18 | UI UX Pro Max tokens and rules |
 | `export.js` | 15 | extension reading view and one-click PDF |
+| `background.js` | 14 | extension v2: `saveTab()`, `saveLink()`, PDF via print engine, downloads |
 
-**Most-connected functions ("god nodes"):** `main()` (16 links), `gather()` (9), `collect()` (8), `makePdf()` (7), `buildHtml()` (7), `log()` (7).
+**Most-connected functions ("god nodes"):** Mac `main()` (16 links), desktop `main()` (10), `gather()` (10), `saveChat()` (9), `collect()` (9), `saveTab()` (8), `tick()` (8).
 **No import cycles.** The graph also links the "Why step mode" section of this doc to the `tick()` function in code.
 
 **Files:**
@@ -227,3 +234,43 @@ A code knowledge graph of this repository, built with [Graphify](https://github.
 - [`graphify-out/graph.json`](../graphify-out/graph.json): the raw graph, for `graphify path`, `graphify explain` and similar commands.
 
 Rebuild after code changes: `pip install graphifyy && graphify update .`
+
+---
+
+## 9. Windows, Linux and every browser
+
+All three apps share the same extractor (`extension/content.js`) and the same `startJob()` / `tick()` loop. Only the **driver** and the **PDF engine** differ.
+
+```mermaid
+flowchart TB
+    subgraph SHARED["Shared by all versions"]
+        EX["Extractor<br/><code>extension/content.js</code><br/>startJob() · tick() · payload"]
+    end
+
+    subgraph MAC["macOS · Safari"]
+        M1["Chat Saver.app (JXA)"] -- "Apple Events<br/>do JavaScript" --> EX
+        M1 --> MP["PDF: macOS WebKit<br/>NSPrintOperation"]
+    end
+    subgraph WIN["Windows · Linux · macOS"]
+        D1["Chat Saver Desktop<br/><code>desktop/chatsaver.mjs</code> (Node)"] -- "Chrome DevTools Protocol<br/>(playwright-core → your Chrome / Edge / Brave)" --> EX
+        D1 --> DP["PDF: headless Chrome<br/>page.pdf()"]
+    end
+    subgraph EXT["Chrome · Edge · Brave · Opera · Firefox"]
+        E1["Extension background<br/><code>extension/background.js</code>"] -- "scripting.executeScript" --> EX
+        E1 --> EP["PDF: Chrome print engine (debugger printToPDF)<br/>or jsPDF in Firefox"]
+    end
+    MP --> OUT[("Downloads/Chat Saver<br/>PDF · TXT · MD")]
+    DP --> OUT
+    EP --> OUT
+```
+
+| | Mac app | Desktop (Windows/Linux/macOS) | Extension |
+|---|---|---|---|
+| **Starts from** | link box (clipboard) or an open Safari tab | link prompt / command-line links | toolbar button, link box or right-click menu |
+| **Drives the page with** | Apple Events → `do JavaScript` | Chrome DevTools Protocol (playwright-core) | `chrome.scripting` from the background |
+| **Signed-in sessions** | your Safari | Chat Saver's own browser profile (sign in once with `--login`) | your browser |
+| **PDF** | macOS WebKit, selectable text | headless Chrome `page.pdf()`, selectable text | Chrome print engine (selectable) / jsPDF (Firefox) |
+| **Checks** | file sizes, PDFKit page count | file sizes, PDF page count | download states, page count |
+| **Where files go** | `~/Downloads/Chat Saver` | `Downloads\Chat Saver` (or `--out`) | `Downloads/Chat Saver` |
+
+**Message order.** Step mode collects what's on screen first, then loads older history. The collector therefore merges every pass into one ordered list: each new message goes right after the last known message seen before it on the page. Older messages loaded at the top always come first. This also handles virtualized lists that re-create elements as you scroll.

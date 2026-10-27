@@ -241,6 +241,12 @@ async function makePdf() {
 
     const blob = pdf.output('blob');
     const name = `${chat.fileBase}.pdf`;
+    if (params.get('action') === 'jobpdf') {
+      // Automatic save (Firefox): put it in Downloads/Chat Saver and tell the background.
+      const downloadId = await api.downloads.download({ url: URL.createObjectURL(blob), filename: `Chat Saver/${name}`, conflictAction: 'uniquify', saveAs: false });
+      api.runtime.sendMessage({ type: 'chatsaver:pdfDone', downloadId, pages: total });
+      return;
+    }
     saveBlob(blob, name);
     banner(`PDF downloaded · ${total} pages. Check your Downloads folder.`, 'ok', { links: [
       link('Download again', () => saveBlob(blob, name), 'download-simple'),
@@ -285,7 +291,11 @@ async function load() {
       banner('Copied the whole chat to the clipboard.', 'ok');
     };
     const action = params.get('action');
-    if (action === 'pdf') makePdf();
+    if (action === 'job' || action === 'jobpdf') forceLight(true); // automatic save: always print in light theme
+    await waitImages();
+    document.body.dataset.ready = '1';
+    if (action === 'jobpdf') makePdf();
+    else if (action === 'pdf') makePdf();
     else if (action === 'print') { await waitImages(); setTimeout(() => window.print(), 300); }
   } catch (e) {
     console.error(e);
