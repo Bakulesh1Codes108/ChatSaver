@@ -147,6 +147,8 @@ The first run compiles a real applet with macOS's built-in `osacompile`, install
 
 ## How it works
 
+📐 **Full architecture with diagrams:** [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md). It covers the components, the step-by-step save sequence, the tick state machine, the extractor pipeline and the install flow.
+
 - **Extractor** (`extension/content.js`, shared by the app and the extension):
   - per-site adapters for the big chat apps, plus a generic detector that finds the message list on any page
   - works out whether each message is from you or the AI, using page markup and layout
